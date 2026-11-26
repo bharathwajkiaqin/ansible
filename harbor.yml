@@ -1,0 +1,13 @@
+---
+- name: Install Harbor
+  hosts: all
+  become: true
+  tasks:
+    - name: Setup and start Harbor
+      shell: |
+        U1="https://github.com"
+        U2="goharbor/harbor/releases/download/v2.11.1/harbor-online-installer-v2.11.1.tgz"
+        cd /opt && wget -q "$U1/$U2" -O harbor.tgz && tar -xzf harbor.tgz
+        cd harbor && cp harbor.yml.tmpl harbor.yml
+        sed -i "s/hostname: .*/hostname: {{ ansible_host }}/; s/port: 80/port: 8081/; /^https:/,/^  private_key:/s/^/#/" harbor.yml
+        ./install.sh

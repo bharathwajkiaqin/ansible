@@ -1,0 +1,11 @@
+---
+- name: Install SonarQube
+  hosts: all
+  become: true
+  tasks:
+    - name: Set vm.max_map_count and run SonarQube container
+      shell: |
+        sysctl -w vm.max_map_count=524288
+        docker rm -f sonarqube || true
+        docker run -d --name sonarqube --restart=always \
+          -p 9000:9000 sonarqube:lts-community

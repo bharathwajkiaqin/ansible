@@ -1,0 +1,6 @@
+[sudo_become_plugin]
+prompt = Password:
+
+0987654321
+[sudo_become_plugin]
+prompt = Password:

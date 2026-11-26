@@ -1,0 +1,11 @@
+---
+- name: Install HashiCorp Vault
+  hosts: all
+  become: true
+  tasks:
+    - name: Run Vault container
+      shell: |
+        docker rm -f vault || true
+        docker run -d --name vault --restart=always --cap-add=IPC_LOCK \
+          -p 8200:8200 -e 'VAULT_DEV_ROOT_TOKEN_ID=root' \
+          -e 'VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200' hashicorp/vault:latest

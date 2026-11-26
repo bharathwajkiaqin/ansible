@@ -1,0 +1,10 @@
+---
+- name: Install Prometheus and Grafana
+  hosts: all
+  become: true
+  tasks:
+    - name: Run Prometheus and Grafana containers
+      shell: |
+        docker rm -f prometheus grafana || true
+        docker run -d --name prometheus --restart=always -p 9090:9090 prom/prometheus:latest
+        docker run -d --name grafana --restart=always -p 3000:3000 grafana/grafana:latest
